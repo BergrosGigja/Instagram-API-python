@@ -1,4 +1,5 @@
 from InstagramAPI import InstagramAPI
+from collections import Counter
 import argparse
 
 likes_list = []
@@ -22,12 +23,13 @@ info = ig.LastJson
 username_id = info['user']['pk']
 user_posts = ig.getUserFeed(username_id)
 info = ig.LastJson
-media_id = info['items'][0]['id']
 
-ig.getMediaLikers(media_id)
-f = ig.LastJson['users']
-for x in f:
-    likes_list.append(x['username'])
-    print(x['username'])
-    print()
-print(len(likes_list))
+for i in range(15):
+    media_id = info['items'][i]['id']
+    ig.getMediaLikers(media_id)
+    f = ig.LastJson['users']
+    for x in f:
+        likes_list.append(x['username'])
+
+counted = Counter(likes_list)
+print(counted.most_common(5))
